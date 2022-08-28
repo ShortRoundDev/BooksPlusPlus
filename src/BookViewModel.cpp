@@ -1,5 +1,7 @@
 #include "BookViewModel.hpp"
 
+#include <iostream>
+
 using namespace Books;
 
 BookViewModel::BookViewModel(Book& book, Environment& environment):
@@ -16,13 +18,23 @@ BookViewModel::~BookViewModel() {
 }
 
 void BookViewModel::gotoPage(u32 page) {
-    for(u32 i = 0; i < page; i++) {
-        nextPage();
-    }
+    m_book.gotoPage(m_environment.getWidth(), m_environment.getHeight(), page, m_buffer);
 }
 
 void BookViewModel::nextPage() {
     m_book.nextPage(m_environment.getWidth(), m_environment.getHeight(), m_buffer);
+}
+
+void BookViewModel::prevPage() {
+    if(m_book.getPageNum() == 1) {
+        return;
+    }
+    else {
+        mvprintw(0, 0, "%ud", m_book.getPageNum());
+    }
+    gotoPage(m_book.getPageNum() - 1);
+    
+    std::cerr << "Buffer: " << m_buffer << std::endl;
 }
 
 void BookViewModel::draw(){

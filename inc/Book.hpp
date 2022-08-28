@@ -4,6 +4,7 @@
 
 #include <string>
 #include <fstream>
+#include <map>
 
 namespace Books {
     class Book {
@@ -17,12 +18,15 @@ namespace Books {
         void nextPage(u32 width, u32 height, std::string& text);
         void prevPage();
 
-        void gotoPage(u32 page);
+        void gotoPage(u32 width, u32 height, u32 page, std::string& text);
 
     private:
         std::string m_path;
         u32 m_pageNum;
         std::fstream m_file;
+        std::map<u32, std::streampos> m_pageLookupBuffer;
+
+        std::streampos findPageOffset(u32 width, u32 height, u32 absolutePage, std::string& text);
     };
 }
 

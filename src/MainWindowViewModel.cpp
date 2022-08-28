@@ -15,7 +15,13 @@ MainWindowViewModel::~MainWindowViewModel() {
 }
 
 void MainWindowViewModel::draw() {
-   m_bookViewModel.draw(); 
+    int w, h;
+    getmaxyx(m_environment.getWin(), h, w);
+    for(int i = 0; i < h; i++) {
+        wmove(m_environment.getWin(), i, 0);
+        wclrtoeol(m_environment.getWin());
+    }
+    m_bookViewModel.draw(); 
 }
 
 BookViewModel& MainWindowViewModel::getBookViewModel() {

@@ -19,13 +19,20 @@ int main(int argc, char** argv) {
 
     MainWindowViewModel mainWindow(environment, book);
 
+    mainWindow.draw();
     while(true) {
-        mainWindow.draw();
         char c = getch();
 
         if(c == 'n') {
             mainWindow.getBookViewModel().nextPage();
         }
+        if(c == 'b') {
+            mainWindow.getBookViewModel().prevPage();
+            std::cerr << "B!" << std::endl;
+        }
 
+        std::cerr << "redrawing..." << std::endl;
+
+        mainWindow.draw();
     }
 }

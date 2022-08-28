@@ -13,6 +13,7 @@ namespace Books {
 
         void gotoPage(u32 page);
         void nextPage();
+        void prevPage();
 
         void draw();
 
