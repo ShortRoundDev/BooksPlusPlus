@@ -11,7 +11,7 @@ namespace Books {
         BookViewModel(Book& book, Environment& environment);
         ~BookViewModel();
 
-        void gotoPage(u32 page);
+        void gotoPage(Page page);
         void nextPage();
         void prevPage();
 

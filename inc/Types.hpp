@@ -18,3 +18,7 @@ typedef float f32;
 typedef double f64;
 
 typedef std::size_t sz;
+
+namespace Books {
+    typedef i64 Page;
+}

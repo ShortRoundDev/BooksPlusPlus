@@ -14,9 +14,9 @@ using namespace Books;
 int main(int argc, char** argv) {
     std::string path = std::string(argv[1]);
 
-    Book book(path);
     Environment environment(argc, argv);
-
+    
+    Book book(path);
     MainWindowViewModel mainWindow(environment, book);
 
     mainWindow.draw();
@@ -28,10 +28,7 @@ int main(int argc, char** argv) {
         }
         if(c == 'b') {
             mainWindow.getBookViewModel().prevPage();
-            std::cerr << "B!" << std::endl;
         }
-
-        std::cerr << "redrawing..." << std::endl;
 
         mainWindow.draw();
     }

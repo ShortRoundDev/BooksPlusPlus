@@ -12,21 +12,23 @@ namespace Books {
         Book(std::string path);
         ~Book();
         
-        u32 getPageNum();
-        const std::fstream& getFile();
+        Page getPageNum();
+        std::fstream& getFile();
         
         void nextPage(u32 width, u32 height, std::string& text);
-        void prevPage();
 
-        void gotoPage(u32 width, u32 height, u32 page, std::string& text);
+        void gotoPage(u32 width, u32 height, Page page, std::string& text);
 
     private:
         std::string m_path;
-        u32 m_pageNum;
+        Page m_pageNum;
         std::fstream m_file;
-        std::map<u32, std::streampos> m_pageLookupBuffer;
+        std::map<Page, std::streampos> m_pageLookupBuffer;
+        std::streampos m_nextPage;
+        bool m_end;
 
-        std::streampos findPageOffset(u32 width, u32 height, u32 absolutePage, std::string& text);
+        std::streampos readPage(u32 width, u32 height, std::streampos position, std::string& text, bool& end);
+        std::streampos findPageOffset(u32 width, u32 height, Page absolutePage, std::string& text, Page& actualPage);
     };
 }
 

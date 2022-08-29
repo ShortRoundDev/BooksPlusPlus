@@ -10,6 +10,7 @@ BookViewModel::BookViewModel(Book& book, Environment& environment):
 {
     int buffSize = m_environment.getWidth() & m_environment.getHeight();
     m_buffer.reserve(buffSize);
+
     nextPage();
 }
 
@@ -17,7 +18,7 @@ BookViewModel::~BookViewModel() {
 
 }
 
-void BookViewModel::gotoPage(u32 page) {
+void BookViewModel::gotoPage(Page page) {
     m_book.gotoPage(m_environment.getWidth(), m_environment.getHeight(), page, m_buffer);
 }
 
@@ -26,15 +27,8 @@ void BookViewModel::nextPage() {
 }
 
 void BookViewModel::prevPage() {
-    if(m_book.getPageNum() == 1) {
-        return;
-    }
-    else {
-        mvprintw(0, 0, "%ud", m_book.getPageNum());
-    }
+    std::cerr << "Going back..." << std::endl;
     gotoPage(m_book.getPageNum() - 1);
-    
-    std::cerr << "Buffer: " << m_buffer << std::endl;
 }
 
 void BookViewModel::draw(){
@@ -44,7 +38,7 @@ void BookViewModel::draw(){
 
 void BookViewModel::drawPage() {
     int w = 0, h = 0;
-    getmaxyx(m_environment.getWin(), w, h);
+    getmaxyx(m_environment.getWin(), h, w);
 
     const int
         pageW = m_environment.getWidth(),
@@ -54,20 +48,25 @@ void BookViewModel::drawPage() {
     const int startY = h / 2 - pageH / 2 - 2;
 
     mvaddch(startY, startX, '*');
+    mvaddch(startY, startX + pageW + 3, '*');
+    mvaddch(startY + pageH + 3, startX, '*');
+    mvaddch(startY + pageH + 3, startX + pageW + 3, '*');
+
     for(int i = startX + 1; i < startX + pageW + 3; i++){
         mvaddch(startY, i, '-');
+        mvaddch(startY + pageH + 3, i, '-');
     }
-    mvaddch(startY, startX + pageW + 3, '*');
     
-    for(int i = startY; i < startY + pageH + 4; i++) {
+    for(int i = startY + 1; i < startY + pageH + 3; i++) {
         mvaddch(i, startX, '|');
+        mvaddch(i, startX + pageW + 3, '|');
     }
 }
 
 void BookViewModel::drawText() {
 
     int w = 0, h = 0;
-    getmaxyx(m_environment.getWin(), w, h);
+    getmaxyx(m_environment.getWin(), h, w);
 
     const int
         pageW = m_environment.getWidth(),
